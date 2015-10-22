@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.media.MediaPlayer;
 
 import java.util.GregorianCalendar;
 
@@ -17,6 +18,7 @@ public class ActMain extends Activity {
     private EditText mMailTitle;
     private TextView mIsSuccessTextView;
     private Button mBtnGo;
+    private MediaPlayer mp3Player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,5 +70,16 @@ public class ActMain extends Activity {
                 System.out.println("MSG:"+rMsg);
             }
         });
+
+        mImgView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("imgView:");
+                mp3Player.stop();
+                mp3Player = MediaPlayer.create(mContext, R.raw.theme_song);
+                mp3Player.start();
+            }
+        });
     }
+
 }
