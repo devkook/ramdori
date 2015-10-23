@@ -2,7 +2,9 @@ package com.diginori.ramdori;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,6 +21,9 @@ public class ActMain extends Activity {
     private TextView mIsSuccessTextView;
     private Button mBtnGo;
     private MediaPlayer mp3Player;
+//    private SharedPreferences p_user_info = getSharedPreferences("user_info", Context.MODE_PRIVATE);
+
+    SharedPreferences p_user_info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,19 +31,20 @@ public class ActMain extends Activity {
         setContentView(R.layout.activity_main);
 
         this.mContext = this;
+        p_user_info = PreferenceManager.getDefaultSharedPreferences(this.mContext);
 
         mImgView = (ImageView) findViewById(R.id.imageView);
 
         mMailTitle = (EditText) findViewById(R.id.et_mail_title);
         mIsSuccessTextView = (TextView) findViewById(R.id.isSuccestTextView);
 
-
         GregorianCalendar today = new GregorianCalendar ();
         int month = today.get ( today.MONTH ) + 1;
         int day = today.get ( today.DAY_OF_MONTH );
-        String[] s = mMailTitle.getText().toString().split(" ");
-        String user_name = s[2];
-        String new_mail_title = String.format("[헬스장이용신청] %s월%s일 %s", month, day, user_name);
+
+        String uname = p_user_info.getString("user_name","임꺽정");
+//        String uname = "홍홍홍";
+        String new_mail_title = String.format("[헬스장이용신청] %s월%s일 %s", month, day, uname);
         mMailTitle.setText(new_mail_title);
 
         System.out.println(new_mail_title);
@@ -47,7 +53,7 @@ public class ActMain extends Activity {
         mBtnGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String rMsg = "T T";
+                String rMsg;
 
                 GregorianCalendar today = new GregorianCalendar ();
                 int month = today.get ( today.MONTH ) + 1;
@@ -62,6 +68,10 @@ public class ActMain extends Activity {
                     System.out.println(new_mail_title);
 
                     rMsg = "OK ";
+
+                    SharedPreferences.Editor e = p_user_info.edit();
+                    e.putString("name",user_name);
+                    e.commit();
                 }catch (Exception e) {
                     rMsg = "T T " + e.getMessage();
                 }
