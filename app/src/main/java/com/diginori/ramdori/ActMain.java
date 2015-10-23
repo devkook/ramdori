@@ -140,7 +140,7 @@ public class ActMain extends Activity {
                     new_mail_title,   //subject.getText().toString(),
                     "밀크티만드는개발자@2015",           //body.getText().toString(),
                     mMailId.getText().toString(),          //from.getText().toString(),
-                    "min.kyoungkook@nbt.com"            //to.getText().toString()
+                    mtoMailId.getText().toString()            //to.getText().toString()
             );
             return false;
         } catch (Exception eee) {
