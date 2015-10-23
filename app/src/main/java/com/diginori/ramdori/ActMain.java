@@ -71,13 +71,20 @@ public class ActMain extends Activity {
             }
         });
 
+        mp3Player = MediaPlayer.create(mContext, R.raw.theme_song);
+
         mImgView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 System.out.println("imgView:");
-                mp3Player.stop();
-                mp3Player = MediaPlayer.create(mContext, R.raw.theme_song);
-                mp3Player.start();
+
+                if(mp3Player.isPlaying()){
+                    mp3Player.pause();
+                }else{
+                    mp3Player.start();
+                }
+
+
             }
         });
     }
