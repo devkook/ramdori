@@ -68,7 +68,6 @@ public class ActMain extends Activity {
                 String rMsg;
 
                 GregorianCalendar today = new GregorianCalendar();
-
                 int year = today.get(today.YEAR);
                 int month = today.get(today.MONTH) + 1;
                 int day = today.get(today.DAY_OF_MONTH);
@@ -85,43 +84,26 @@ public class ActMain extends Activity {
                         throw new Exception("하루에 한번만!");
                     }
 
-
-
                     //
                     String[] s = mMailTitle.getText().toString().split(" ");
                     String user_name = s[2];
                     String new_mail_title = String.format("[헬스장이용신청] %s월%s일 %s", month, day, user_name);
                     mMailTitle.setText(new_mail_title);
 
-                    System.out.println(new_mail_title);
+                    savePre(user_name);
 
-                    rMsg = "OK ";
-
-                    SharedPreferences.Editor e = p_user_info.edit();
-                    e.putString("user_name", user_name);
-                    e.putString("mail_id", mMailId.getText().toString());
-                    e.putString("mail_passwd", mMailPasswd.getText().toString());
-                    e.putString("to_mail_id", mtoMailId.getText().toString());
-                    e.commit();
-
-
-                    GMailSender sender = new GMailSender(mMailId.getText().toString(), mMailPasswd.getText().toString()); // SUBSTITUTE HERE
-                    try {
-                        sender.sendMail(
-                                new_mail_title,   //subject.getText().toString(),
-                                "밀크티만드는개발자@2015",           //body.getText().toString(),
-                                mMailId.getText().toString(),          //from.getText().toString(),
-                                "min.kyoungkook@nbt.com"            //to.getText().toString()
-                        );
-                    } catch (Exception eee) {
-                        Log.e("SendMail", eee.getMessage(), eee);
+                    if(isSendMailFail(new_mail_title)){
+                        playSong();
+                        throw new Exception("메일발송 실패!!!");
                     }
 
+                    //DB
                     realm.beginTransaction();
                     UserHistory uh = realm.createObject(UserHistory.class);
                     uh.setYyyymmdd(yyyymmdd);
                     realm.commitTransaction();
 
+                    rMsg = "메일발송 성공!!!";
                 } catch (Exception e) {
                     rMsg = "T T " + e.getMessage();
                 }
@@ -139,9 +121,32 @@ public class ActMain extends Activity {
                 System.out.println("imgView:");
                 playSong();
             }
-
-
         });
+    }
+
+    private void savePre(String user_name) {
+        SharedPreferences.Editor e = p_user_info.edit();
+        e.putString("user_name", user_name);
+        e.putString("mail_id", mMailId.getText().toString());
+        e.putString("mail_passwd", mMailPasswd.getText().toString());
+        e.putString("to_mail_id", mtoMailId.getText().toString());
+        e.commit();
+    }
+
+    private boolean isSendMailFail(String new_mail_title) {
+        GMailSender sender = new GMailSender(mMailId.getText().toString(), mMailPasswd.getText().toString()); // SUBSTITUTE HERE
+        try {
+            sender.sendMail(
+                    new_mail_title,   //subject.getText().toString(),
+                    "밀크티만드는개발자@2015",           //body.getText().toString(),
+                    mMailId.getText().toString(),          //from.getText().toString(),
+                    mtoMailId.getText().toString()            //to.getText().toString()
+            );
+            return false;
+        } catch (Exception eee) {
+            Log.e("SendMail", eee.getMessage(), eee);
+            return true;
+        }
     }
 
     private void playSong() {
