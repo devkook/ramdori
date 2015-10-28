@@ -17,6 +17,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <!--스플래시(로딩) 액티비티-->
+        <activity android:name="SplashActivity"/>
     </application>
 
 </manifest>
