@@ -8,8 +8,8 @@ android {
         applicationId "com.diginori.ramdori"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 8
-        versionName "2.0.0"
+        versionCode 11
+        versionName "3.0.0"
     }
     buildTypes {
         release {
