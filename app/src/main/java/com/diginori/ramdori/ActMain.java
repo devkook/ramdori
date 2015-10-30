@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,7 +23,7 @@ import java.util.GregorianCalendar;
 import io.realm.Realm;
 import io.realm.RealmQuery;
 
-public class ActMain extends Activity {
+public class ActMain extends AppCompatActivity {
     private Context mContext;
     private ImageView mImgView;
     private EditText mMailTitle;
