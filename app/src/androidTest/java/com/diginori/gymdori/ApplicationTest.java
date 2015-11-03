@@ -1,4 +1,4 @@
-package com.diginori.ramdori;
+package com.diginori.gymdori;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

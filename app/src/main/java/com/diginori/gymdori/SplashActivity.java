@@ -1,4 +1,4 @@
-package com.diginori.ramdori;
+package com.diginori.gymdori;
 
 import android.app.Activity;
 import android.content.Context;

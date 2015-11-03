@@ -1,7 +1,6 @@
-package com.diginori.ramdori;
+package com.diginori.gymdori;
 
 import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
 public class UserHistory extends RealmObject {
     private String          yyyymmdd;

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.diginori.ramdori" >
+    package="com.diginori.gymdori" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -10,7 +11,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".ActMain"
+            android:name="com.diginori.gymdori.ActMain"
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -21,11 +22,30 @@
         </activity>
 
         <!-- 스플래시(로딩) 액티비티 -->
-        <activity android:name=".SplashActivity" />
+        <activity android:name="com.diginori.gymdori.SplashActivity" />
         <activity
-            android:name=".WhuAUActivity"
+            android:name="com.diginori.gymdori.WhuAUActivity"
             android:label="@string/title_activity_whu_au" >
         </activity>
+        <activity
+            android:name="com.diginori.gymdori.NavigationDrawer"
+            android:label="@string/title_activity_navigation_drawer" >
+        </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="b73eaf3bb1c13865e08196c6377f4f18517af02b" />
+        <activity
+            android:name="com.mopub.mobileads.MoPubActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name="com.mopub.mobileads.MraidActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name="com.mopub.common.MoPubBrowser"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name="com.mopub.mobileads.MraidVideoPlayerActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
     </application>
 
 </manifest>
