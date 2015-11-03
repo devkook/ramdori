@@ -10,12 +10,16 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.media.MediaPlayer;
+
+import com.amazonaws.mobileconnectors.amazonmobileanalytics.InitializationException;
+import com.amazonaws.mobileconnectors.amazonmobileanalytics.MobileAnalyticsManager;
 
 import java.util.GregorianCalendar;
 
@@ -37,8 +41,28 @@ public class ActMain  extends Activity {
     int mmm;
     int ddd;
 
-
     SharedPreferences p_user_info;
+
+    private static MobileAnalyticsManager analytics;
+    private static final int STATE_LOSE = 0;
+    private static final int STATE_WIN = 1;
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(analytics != null) {
+            analytics.getSessionClient().pauseSession();
+            analytics.getEventClient().submitEvents();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(analytics != null) {
+            analytics.getSessionClient().resumeSession();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +70,8 @@ public class ActMain  extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        initAmazonMobileAnalytics();
 
         this.mContext = this;
         p_user_info = PreferenceManager.getDefaultSharedPreferences(this.mContext);
@@ -132,6 +158,18 @@ public class ActMain  extends Activity {
                 System.out.println("imgView:");
             }
         });
+    }
+
+    private void initAmazonMobileAnalytics() {
+        try {
+            analytics = MobileAnalyticsManager.getOrCreateInstance(
+                    this.getApplicationContext(),
+                    "8ba6f183a54b4d94b065fc81cf374c1f", //Amazon Mobile Analytics App ID
+                    "us-east-1:0bbc0715-e1f1-434c-be4b-26e38c7d2798" //Amazon Cognito Identity Pool ID
+            );
+        } catch(InitializationException ex) {
+            Log.e(this.getClass().getName(), "Failed to initialize Amazon Mobile Analytics", ex);
+        }
     }
 
     private void sendMail() {
