@@ -25,4 +25,5 @@ dependencies {
     compile 'io.realm:realm-android:0.82.2'
     compile 'com.amazonaws:aws-android-sdk-core:2.2.5'
     compile 'com.amazonaws:aws-android-sdk-mobileanalytics:2.2.5'
+    compile 'com.google.android.gms:play-services-analytics:8.1.0'
 }
