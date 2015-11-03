@@ -21,15 +21,17 @@ import android.widget.TextView;
 import com.amazonaws.mobileconnectors.amazonmobileanalytics.InitializationException;
 import com.amazonaws.mobileconnectors.amazonmobileanalytics.MobileAnalyticsManager;
 import com.crashlytics.android.Crashlytics;
-
 import com.mopub.common.MoPub;
+import com.mopub.mobileads.MoPubErrorCode;
+import com.mopub.mobileads.MoPubInterstitial;
+
 import java.util.GregorianCalendar;
 
 import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 import io.realm.RealmQuery;
 
-public class ActMain  extends Activity {
+public class ActMain  extends Activity implements MoPubInterstitial.InterstitialAdListener {
     private Context mContext;
     private ImageView mImgView;
     private EditText mMailTitle;
@@ -50,7 +52,7 @@ public class ActMain  extends Activity {
     private static final int STATE_LOSE = 0;
     private static final int STATE_WIN = 1;
 
-
+    private MoPubInterstitial interstitial;
 
     @Override
     protected void onPause() {
@@ -76,6 +78,12 @@ public class ActMain  extends Activity {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics(), new MoPub());
         setContentView(R.layout.activity_main);
+
+        // TODO: Replace this test id with your personal ad unit id
+        interstitial = new MoPubInterstitial(this, "939833da48484183aed05eff5067bb58");
+        interstitial.setInterstitialAdListener(this);
+        interstitial.load();
+
 
         initAmazonMobileAnalytics();
 
@@ -222,4 +230,39 @@ public class ActMain  extends Activity {
         e.putString("to_mail_id", mtoMailId.getText().toString());
         e.commit();
     }
+
+    @Override
+    public void onDestroy(){
+        interstitial.destroy();
+        super.onDestroy();
+
+    }
+
+    // InterstitialAdListener methods
+    @Override
+    public void onInterstitialLoaded(MoPubInterstitial interstitial) {
+        // This sample automatically shows the ad as soon as it's loaded, but
+        // you can move this show call to a time more appropriate for your app.
+        if (interstitial.isReady()) {
+            interstitial.show();
+        }
+    }
+
+    @Override
+    public void onInterstitialFailed(MoPubInterstitial interstitial, MoPubErrorCode errorCode) {
+        Log.d("MoPub", "Interstitial load failed: " + errorCode);
+    }
+
+    @Override
+    public void onInterstitialShown(MoPubInterstitial interstitial) {
+    }
+
+    @Override
+    public void onInterstitialClicked(MoPubInterstitial interstitial) {
+    }
+
+    @Override
+    public void onInterstitialDismissed(MoPubInterstitial interstitial) {
+    }
+
 }
