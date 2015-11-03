@@ -24,6 +24,7 @@ import com.crashlytics.android.Crashlytics;
 import com.mopub.common.MoPub;
 import com.mopub.mobileads.MoPubErrorCode;
 import com.mopub.mobileads.MoPubInterstitial;
+import com.mopub.mobileads.MoPubView;
 
 import java.util.GregorianCalendar;
 
@@ -53,6 +54,8 @@ public class ActMain  extends Activity implements MoPubInterstitial.Interstitial
     private static final int STATE_WIN = 1;
 
     private MoPubInterstitial interstitial;
+    private MoPubView moPubView;
+
 
     @Override
     protected void onPause() {
@@ -65,6 +68,8 @@ public class ActMain  extends Activity implements MoPubInterstitial.Interstitial
 
     @Override
     protected void onResume() {
+        setMailTitle();
+
         super.onResume();
         if(analytics != null) {
             analytics.getSessionClient().resumeSession();
@@ -78,6 +83,12 @@ public class ActMain  extends Activity implements MoPubInterstitial.Interstitial
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics(), new MoPub());
         setContentView(R.layout.activity_main);
+
+        moPubView = (MoPubView) findViewById(R.id.mopub_sample_ad);
+        // TODO: Replace this test id with your personal ad unit id
+        moPubView.setAdUnitId("d3edc2d646e34b6fbc7721c582b9f4a5");
+        moPubView.loadAd();
+
 
         // TODO: Replace this test id with your personal ad unit id
         interstitial = new MoPubInterstitial(this, "939833da48484183aed05eff5067bb58");
@@ -97,16 +108,10 @@ public class ActMain  extends Activity implements MoPubInterstitial.Interstitial
 
         mIsSuccessTextView = (TextView) findViewById(R.id.isSuccestTextView);
 
-        GregorianCalendar today = new GregorianCalendar ();
-        int month = today.get ( today.MONTH ) + 1;
-        int day = today.get(today.DAY_OF_MONTH);
-
-        String new_mail_title = String.format("[헬스장이용신청] %s월%s일 %s", month, day, p_user_info.getString("user_name","임꺽정"));
-        mMailTitle.setText(new_mail_title);
+        setMailTitle();
 
         mtoMailId.setText(p_user_info.getString("to_mail_id", "to@nbt.com"));
 
-        System.out.println(new_mail_title);
 
         realm = Realm.getInstance(mContext);
 
@@ -174,6 +179,15 @@ public class ActMain  extends Activity implements MoPubInterstitial.Interstitial
         });
     }
 
+    private void setMailTitle() {
+        GregorianCalendar today = new GregorianCalendar ();
+        int month = today.get ( today.MONTH ) + 1;
+        int day = today.get(today.DAY_OF_MONTH);
+
+        String new_mail_title = String.format("[헬스장이용신청] %s월%s일 %s", month, day, p_user_info.getString("user_name","임꺽정"));
+        mMailTitle.setText(new_mail_title);
+    }
+
     private void initAmazonMobileAnalytics() {
         try {
             analytics = MobileAnalyticsManager.getOrCreateInstance(
@@ -234,6 +248,7 @@ public class ActMain  extends Activity implements MoPubInterstitial.Interstitial
     @Override
     public void onDestroy(){
         interstitial.destroy();
+        moPubView.destroy();
         super.onDestroy();
 
     }

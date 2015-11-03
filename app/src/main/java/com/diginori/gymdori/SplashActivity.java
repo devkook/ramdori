@@ -5,16 +5,19 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Message;
-
 import android.os.Handler;
+import android.os.Message;
 import android.widget.TextView;
+
+import com.mopub.mobileads.MoPubView;
 
 
 public class SplashActivity extends Activity
 {
     private TextView mVersionInfo;
     private Context mContext;
+    private MoPubView moPubView;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -22,6 +25,12 @@ public class SplashActivity extends Activity
         this.mContext = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
+
+        moPubView = (MoPubView) findViewById(R.id.mopub_sample_ad);
+        // TODO: Replace this test id with your personal ad unit id
+        moPubView.setAdUnitId("d3edc2d646e34b6fbc7721c582b9f4a5");
+        moPubView.loadAd();
+
 
         mVersionInfo = (TextView) findViewById(R.id.textViewVersionInfo);
         String version;
@@ -33,6 +42,13 @@ public class SplashActivity extends Activity
 
         initialize();
 
+
+    }
+
+    @Override
+    protected void onDestroy(){
+        moPubView.destroy();
+        super.onDestroy();
 
     }
 

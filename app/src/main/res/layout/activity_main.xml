@@ -31,9 +31,11 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="GYM"
+            android:text="GYM 메일 보내기"
             android:id="@+id/button"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textSize="33dp" />
 
 
         <TextView
@@ -56,8 +58,17 @@
             android:layout_height="wrap_content"
             android:id="@+id/et_to_mail"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="0"
-            android:hint="to@nbt.com" />
+            android:layout_weight="1"
+            android:hint="to@nbt.com"
+            android:textStyle="bold"
+            android:textSize="22dp" />
+
+        <com.mopub.mobileads.MoPubView
+            android:id="@+id/mopub_sample_ad"
+            android:layout_alignParentBottom="true"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"/>
+
 
     </LinearLayout>
 

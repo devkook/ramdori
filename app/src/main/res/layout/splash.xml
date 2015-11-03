@@ -8,8 +8,10 @@
         android:layout_height="match_parent"
         android:id="@+id/imageView2"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="1"
-        android:background="@mipmap/gym_bg" />
+        android:layout_weight="2"
+        android:background="@mipmap/gym_bg"
+        android:adjustViewBounds="false"
+        android:baselineAlignBottom="true" />
 
     <TextView
         android:layout_width="match_parent"
@@ -18,5 +20,16 @@
         android:text="Large Text"
         android:id="@+id/textViewVersionInfo"
         android:layout_weight="10"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:foreground="#fff728"
+        android:textAlignment="center"
+        android:textColor="#ff0004"
+        android:textStyle="bold" />
+
+    <com.mopub.mobileads.MoPubView
+        android:id="@+id/mopub_sample_ad"
+        android:layout_alignParentBottom="true"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"/>
+
 </LinearLayout>
