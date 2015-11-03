@@ -100,7 +100,6 @@ public class ActMain  extends Activity {
                         });
                         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                playSong();
                                 try {
                                     throw new Exception("하루에 한번만!");
                                 } catch (Exception e) {
@@ -131,7 +130,6 @@ public class ActMain  extends Activity {
             @Override
             public void onClick(View view) {
                 System.out.println("imgView:");
-                playSong();
             }
         });
     }
@@ -179,17 +177,5 @@ public class ActMain  extends Activity {
         e.putString("user_name", user_name);
         e.putString("to_mail_id", mtoMailId.getText().toString());
         e.commit();
-    }
-
-    private void playSong() {
-        if(mp3Player == null) {
-            mp3Player = MediaPlayer.create(mContext, R.raw.theme_song);
-        }
-
-        if(mp3Player.isPlaying()){
-            mp3Player.pause();
-        }else{
-            mp3Player.start();
-        }
     }
 }
