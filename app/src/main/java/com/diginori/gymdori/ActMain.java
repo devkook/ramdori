@@ -20,9 +20,12 @@ import android.widget.TextView;
 
 import com.amazonaws.mobileconnectors.amazonmobileanalytics.InitializationException;
 import com.amazonaws.mobileconnectors.amazonmobileanalytics.MobileAnalyticsManager;
+import com.crashlytics.android.Crashlytics;
 
+import com.mopub.common.MoPub;
 import java.util.GregorianCalendar;
 
+import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 import io.realm.RealmQuery;
 
@@ -71,6 +74,7 @@ public class ActMain  extends Activity {
         startActivity(new Intent(this, SplashActivity.class));
 
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics(), new MoPub());
         setContentView(R.layout.activity_main);
 
         initAmazonMobileAnalytics();
